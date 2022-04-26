@@ -1,4 +1,4 @@
-const { response } = require('@hapi/hapi/lib/validation')
+const { response } = require('@hapi/hapi')
 const { nanoid } = require('nanoid')
 const books = require('./books')
 
@@ -138,7 +138,6 @@ const getAllBooksHandler = (request, h) => {
 
 const getBooksByIdHandler = (request, h) => {
   const { bookId } = request.params
-
   const book = books.filter((book) => book.id === bookId)[0]
 
   if (book !== undefined) {
@@ -149,11 +148,13 @@ const getBooksByIdHandler = (request, h) => {
       }
     }
   }
+
   const response = h.response({
     status: 'fail',
     message: 'Buku tidak ditemukan'
   })
   response.code(404)
+
   return response
 }
 
@@ -237,7 +238,7 @@ const deleteBooksByIdHandler = (request, h) => {
 
   const response = h.response({
     status: 'fail',
-    message: 'Catatan gagal dihapus. Id tidak ditemukan'
+    message: 'Buku gagal dihapus. Id tidak ditemukan'
   })
 
   response.code(404)
